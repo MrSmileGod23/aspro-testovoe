@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Brackets</title>
+    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="bg-primary text-center p-3 text-white mb-5">
+    <h1>Функция Brackets</h1>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <form class="col-6 p-4 bg-light" method="POST">
+            <div class="col mb-3">
+                <label for="inputString" class="form-label">Ваша строка</label>
+                <input type="text" class="form-control" id="inputString" aria-describedby="inputStringHelp">
+                <div id="inputStringHelp" class="form-text">Мы проверим в вашем строке последовательность скобок</div>
+            </div>
+            <div class="text-center mt-5">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </div>
+        </form>
+
+        <div class="col"></div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6 p-4 bg-light">
+            <h4 class="text-center mb-5">История запросов</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Строка</th>
+                    <th scope="col">Результат</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td><{()}></td>
+                    <td>true</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+
+</body>
+</html>
