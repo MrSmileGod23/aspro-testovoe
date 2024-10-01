@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>Brackets</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://unpkg.com/vue@next"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
@@ -16,16 +15,19 @@
 <div class="container">
     <div class="row">
         <div class="col"></div>
-        <form class="col-6 p-4 bg-light" method="POST">
-            <div class="col mb-3">
-                <label for="inputString" class="form-label">Ваша строка</label>
-                <input type="text" class="form-control" id="inputString" aria-describedby="inputStringHelp">
-                <div id="inputStringHelp" class="form-text">Мы проверим в вашем строке последовательность скобок</div>
+        <div class="col-6 p-4 bg-light" >
+            <div>
+                <div class="col mb-3">
+                    <label for="string" class="form-label">Ваша строка</label>
+                    <input type="text" class="form-control" id="string" aria-describedby="inputStringHelp" value="">
+                    <div id="inputStringHelp" class="form-text">Мы проверим в вашем строке последовательность скобок</div>
+                </div>
+                <div class="text-center mt-5">
+                    <button id="submit" class="btn btn-primary">Отправить</button>
+                </div>
             </div>
-            <div class="text-center mt-5">
-                <button type="submit" class="btn btn-primary">Отправить</button>
-            </div>
-        </form>
+            <div id="message"></div>
+        </div>
         <div class="col"></div>
     </div>
 </div>
@@ -41,14 +43,42 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
+        //Создается ajax запрос
         $.ajax({
+            //Тип запроса
             type: "GET",
+            //Выполняемая функция
             url: "./function/display.php",
             dataType: "html",
+            //При успешном запросе возвращает данные в id table
             success: function(response) {
                 $("#table").html(response);
             }
         });
+        $('#submit').click(function (){
+
+            var string = $('#string').val();
+            $.ajax({
+                type: "POST",
+                url: "./function/brackets.php",
+                dataType: "json",
+                data:{
+                  "string": string
+                },
+                success:function (data){
+                    $("#message").html(data.success);
+
+                    $.ajax({
+                        type: "GET",
+                        url: "./function/display.php",
+                        dataType: "html",
+                        success: function (response) {
+                            $("#table").html(response);
+                        }});
+                }
+            })
+        });
+
     });
 </script>
 </body>
