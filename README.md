@@ -57,7 +57,7 @@ server {
         listen       80;
         server_name  localhost;
 
-        root  C:/OSPanel/domains/aspro-testovoe;
+        root  C:/ваш-путь-до-проекта/aspro-testovoe;
         index index.html;
 
         location / {
