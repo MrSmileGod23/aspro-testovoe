@@ -36,36 +36,37 @@ function brackets($string)
         }
     }
     //Если стек пустой, возвращает true
-    return json_encode(true);
-
-}
-
-$msg_box = ""; // Храним сообщение для вывода
-$errors = array(); // Массив для ошибков
-
-// Проверяем поля
-if ($_POST['string'] == "") $errors[] = "Поле 'Ваша строка' не заполнено!";
-
-// если форма без ошибок
-if (empty($errors)) {
-    // собираем данные из формы
-    $string = $_POST['string'];
-    $result = brackets($string);
-    $sql = "INSERT INTO history (string,status) values ('$string','$result')";
-    mysqli_query($connection, $sql);
-    $msg_box = $result;
-} else {
-    // если были ошибки, то выводим их
-    $msg_box = "";
-    foreach ($errors as $one_error) {
-        $msg_box = $one_error;
+    if(empty($stack)){
+        return json_encode(true);
     }
+    else{
+        return json_encode(false);
+    }
+
+
+
 }
 
-// Делаем ответ в формате json
-echo json_encode(array(
-    'success' => $msg_box
-));
+// Устанавливаем заголовок JSON
+header('Content-Type: application/json');
+//Получаем данные из POST
+$data = json_decode(file_get_contents('php://input'), true);
+//Получаем значение string из data
+$string = $data['string'] ?? '';
+
+//Проверяем на пустую строку
+if (empty($string)) {
+    echo json_encode(['success' => false, 'message' => "Поле 'Ваша строка' не заполнено!"]);
+    exit;
+}
+
+// Вызываем функцию
+$result = brackets($string);
+$sql = "INSERT INTO history (string, status) VALUES ('$string', '$result')";
+mysqli_query($connection, $sql);
+
+//Возвращаем ответ в формате JSON
+echo json_encode(['success' => $result]);
 
 
 
