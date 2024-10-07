@@ -15,8 +15,7 @@ echo "
     </thead>
     <tbody>
     ";
-while ($data = mysqli_fetch_row($result))
-{
+while ($data = mysqli_fetch_row($result)) {
     echo "<tr>";
     echo "<th>$data[0]</th>";
     echo "<th>$data[1]</th>";
