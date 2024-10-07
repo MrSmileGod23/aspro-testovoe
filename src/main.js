@@ -70,11 +70,11 @@ const App = {
                  </tr>
              </thead>
              <tbody>
-                 <tr v-for="entry in history" :key="entry.id">   
+                 <tr v-for="item in history" :key="item.id">   
                
-                        <td>{{ entry.id }}</td>
-                        <td>{{ entry.string }}</td>
-                        <td>{{ entry.status }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.string }}</td>
+                        <td>{{ item.status }}</td>
                 
                   </tr>
               </tbody>
