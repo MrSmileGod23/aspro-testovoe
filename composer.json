@@ -1,0 +1,7 @@
+{
+  "require": {
+    "php": "^8.3",
+    "ext-json": "*",
+    "ext-mysqli": "*"
+  }
+}

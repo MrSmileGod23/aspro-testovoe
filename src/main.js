@@ -10,9 +10,8 @@ const App = {
     methods: {
         //Создаем ассинхроннный метод
         async checkBrackets() {
-
             //Отправляем POST запрос в функцию brackets
-            const response = await fetch('./function/brackets.php', {
+            const response = await fetch('src/Controllers/HistoryController.php?action=checkBrackets', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -22,9 +21,7 @@ const App = {
                     string: this.string
                 }),
             });
-
-            const result = await response.text();
-            const data = JSON.parse(result);
+            const data = await response.json();
 
             //Если запрос успешный,то обнуляем ошибки,записываем результат и вызываем функцию обновления истории
             if (data.success) {
@@ -34,12 +31,19 @@ const App = {
             }
             //Если запрос неуспешный,то выводим сообщение об ошибке
             else {
-                this.error = data.message;
+                this.result = null;
+                this.error = data.error;
             }
         },
+        async deleteHistory(){
+            const response = await fetch('src/Controllers/HistoryController.php?action=deleteHistory')
+            this.fetchHistory();
+        },
         async fetchHistory() {
-            const response = await fetch('./function/display.php');
-            this.history = await response.json();
+            const response = await fetch('src/Controllers/HistoryController.php?action=getHistory');
+            const data = await response.json();
+            this.history = data;
+            this.error = data.error;
         },
     },
 
@@ -49,18 +53,24 @@ const App = {
 
     template: `
         <div>
-                <div class="col mb-3">
-                    <label for="string" class="form-label">Ваша строка</label>
-                    <input type="text" v-model="string" class="form-control"  aria-describedby="inputStringHelp" value="">
-                </div>
-                <div class="text-center mt-5">
-                    <button @click="checkBrackets" class="btn btn-primary">Отправить</button>
-                </div>
+        <form @submit.prevent="checkBrackets">
+            <div class="col mb-3">
+                <label for="string" class="form-label">Ваша строка</label>
+                <input type="text" v-model="string" class="form-control"  aria-describedby="inputStringHelp" value="">
             </div>
-            <div v-if="result" >Результат: {{ result }}</div>
-            <div v-if="error" >{{ error }}</div>
+            <div class="text-center mt-5">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </div>
+       
+        </form>
+          </div>
+            <div v-if="result" class="text-success">Результат: {{ result }}</div>
+            <div v-if="error" class="text-danger" >{{ error }}</div>
             
-             <h4 class="text-center mb-5 mt-5">История запросов</h4>
+             <h4 class="text-center mb-3 mt-5">История запросов</h4>
+             <div class="text-center">
+                <button @click.prevent="deleteHistory" class="btn btn-danger mb-5">Очистить</button>    
+            </div>       
              <table class='table'>
              <thead>
                  <tr>
