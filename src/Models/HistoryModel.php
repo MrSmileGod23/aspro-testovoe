@@ -1,7 +1,5 @@
 <?php
 
-include_once "../../db_config.php";
-
 class HistoryModel
 {
     private $connection;

@@ -38,6 +38,8 @@ const App = {
         async deleteHistory(){
             const response = await fetch('src/Controllers/HistoryController.php?action=deleteHistory')
             this.fetchHistory();
+            const data = await response.json();
+            this.error = data.error;
         },
         async fetchHistory() {
             const response = await fetch('src/Controllers/HistoryController.php?action=getHistory');
@@ -64,7 +66,7 @@ const App = {
        
         </form>
           </div>
-            <div v-if="result" class="text-success">Результат: {{ result }}</div>
+            <div v-if="result">Результат:  {{ result }}</div>
             <div v-if="error" class="text-danger" >{{ error }}</div>
             
              <h4 class="text-center mb-3 mt-5">История запросов</h4>

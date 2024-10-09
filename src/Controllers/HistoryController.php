@@ -4,6 +4,8 @@ include_once "../../db_config.php";
 include_once "./BracketsController.php";
 include_once "../Models/HistoryModel.php";
 
+$connection = mysqli_connect($db_config['host'],$db_config['user'],$db_config['password'],$db_config['dbname']);
+
 class HistoryController
 {
     private $model;
@@ -44,7 +46,11 @@ class HistoryController
 
     public function deleteHistory()
     {
+        try {
         $history = $this->model->deleteHistory();
+        } catch (Exception $e) {
+            echo json_encode(["error" => $e->getMessage()]);
+        }
     }
 }
 
