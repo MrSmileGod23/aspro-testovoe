@@ -49,7 +49,9 @@ cd aspro-testovoe
 ```
 npm install
 ```
-
+```
+composer install
+```
 ### 3. Настройка Nginx
 
 ```
